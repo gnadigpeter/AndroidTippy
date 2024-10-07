@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
+import android.widget.Button
 import android.widget.EditText
 import android.widget.SeekBar
 import android.widget.TextView
@@ -12,6 +13,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.vectordrawable.graphics.drawable.ArgbEvaluator
+import kotlin.math.log
 
 private const val TAG = "MainActivity"
 private const val INITIAL_TIP_PRECENT = 15
@@ -23,6 +25,10 @@ class MainActivity : AppCompatActivity() {
     private lateinit var tvTipAmount: TextView
     private lateinit var tvTotalAmount: TextView
     private lateinit var tvTipDescription: TextView
+
+    private lateinit var bSplitTheBill: Button
+    private lateinit var etNumberOfPeople: EditText
+    private lateinit var tvAmountPerPeople: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,6 +44,11 @@ class MainActivity : AppCompatActivity() {
 
         seekBarTip.progress = INITIAL_TIP_PRECENT
         tvTipPercentLabel.text = "${INITIAL_TIP_PRECENT}"
+
+        bSplitTheBill = findViewById(R.id.bSplitTheBill)
+        etNumberOfPeople = findViewById(R.id.etNumberOfPeople)
+        tvAmountPerPeople = findViewById(R.id.tvAmountPerPeople)
+
 
         seekBarTip.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
@@ -65,6 +76,11 @@ class MainActivity : AppCompatActivity() {
                 computeTipAndTotal()
             }
         })
+
+        bSplitTheBill.setOnClickListener() {
+            Log.i(TAG, "clicked")
+            splitBill()
+        }
 //        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
 //            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
 //            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
@@ -85,10 +101,21 @@ class MainActivity : AppCompatActivity() {
         //update the color based on the tipPercent
         val color = ArgbEvaluator().evaluate(
             tipPercent.toFloat() / seekBarTip.max,
-            ContextCompat.getColor(this,R.color.color_worst_tip),
-            ContextCompat.getColor(this,R.color.color_best_tip)
+            ContextCompat.getColor(this, R.color.color_worst_tip),
+            ContextCompat.getColor(this, R.color.color_best_tip)
         ) as Int
         tvTipDescription.setTextColor(color)
+    }
+
+    private fun splitBill() {
+        if (etNumberOfPeople.text.isEmpty() || tvTotalAmount.text.isEmpty() ) {
+            tvAmountPerPeople.text = ""
+            return
+        }
+        Log.i(TAG,"${tvTotalAmount.text.toString().replace(",",".").toDouble()}")
+        val totalAmount = tvTotalAmount.text.toString().replace(",",".").toDouble()
+        val splitAmountPerPerson = totalAmount / etNumberOfPeople.text.toString().toInt()
+        tvAmountPerPeople.text = "%.2f".format(splitAmountPerPerson)
     }
 
     private fun computeTipAndTotal() {

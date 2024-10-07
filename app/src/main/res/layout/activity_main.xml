@@ -5,8 +5,8 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
-    android:fitsSystemWindows="true">
+    android:fitsSystemWindows="true"
+    tools:context=".MainActivity">
 
     <!-- Views on the left side -->
     <TextView
@@ -117,4 +117,59 @@
         app:layout_constraintStart_toStartOf="@+id/seekBarTip"
         app:layout_constraintTop_toBottomOf="@+id/seekBarTip"
         tools:text="Acceptable" />
+
+    <Button
+        android:id="@+id/bSplitTheBill"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
+        android:text="Split"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvTotalLabel" />
+
+    <EditText
+        android:id="@+id/etNumberOfPeople"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="28dp"
+        android:ems="3"
+        android:inputType="numberDecimal"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="@+id/tvSplitTextLabel"
+        app:layout_constraintStart_toEndOf="@+id/tvSplitTextLabel"
+        app:layout_constraintTop_toTopOf="@+id/tvSplitTextLabel"
+        tools:text="2" />
+
+    <TextView
+        android:id="@+id/tvTotalPerPeopleLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="Total / People"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="@+id/bSplitTheBill"
+        app:layout_constraintTop_toBottomOf="@+id/bSplitTheBill" />
+
+    <TextView
+        android:id="@+id/tvAmountPerPeople"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="22sp"
+        app:layout_constraintBottom_toBottomOf="@+id/tvTotalPerPeopleLabel"
+        app:layout_constraintStart_toStartOf="@+id/etNumberOfPeople"
+        app:layout_constraintTop_toTopOf="@+id/tvTotalPerPeopleLabel"
+        tools:text="52.4" />
+
+    <TextView
+        android:id="@+id/tvSplitTextLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:text="bill to"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="@+id/bSplitTheBill"
+        app:layout_constraintStart_toEndOf="@+id/bSplitTheBill"
+        app:layout_constraintTop_toTopOf="@+id/bSplitTheBill" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
